@@ -12,6 +12,8 @@ import { RecipePage } from "./pages/RecipePage";
 import { EditRecipePage } from "./pages/EditRecipePage";
 import { CreateRecipePage } from "./pages/CreateRecipePage";
 import IsPrivate from "./components/IsPrivate";
+import { PlanPage } from "./pages/PlanPage";
+import { CreatePlanPage } from "./pages/CreatePlanPage";
 
 function App() {
   return (
@@ -44,6 +46,22 @@ function App() {
           element={
             <RouteProtector>
               <ProfilePage />
+            </RouteProtector>
+          }
+        ></Route>
+        <Route
+          path="/plan/:planId"
+          element={
+            <RouteProtector>
+              <PlanPage />
+            </RouteProtector>
+          }
+        ></Route>
+        <Route
+          path="/plan/new"
+          element={
+            <RouteProtector>
+              <CreatePlanPage />
             </RouteProtector>
           }
         ></Route>

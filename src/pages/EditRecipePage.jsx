@@ -11,7 +11,6 @@ const API_URL = "http://localhost:5005";
 
 export const EditRecipePage = () => {
   const { recipeId } = useParams();
-  //const [theRecipe, setTheRecipe] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const nav = useNavigate();
   const storedToken = localStorage.getItem("authToken");
@@ -138,7 +137,6 @@ export const EditRecipePage = () => {
       <Link to="/recipes">
         <button>Back to All Recipes</button>
       </Link>
-      <div className="data-container"></div>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
