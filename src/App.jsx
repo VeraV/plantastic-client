@@ -31,7 +31,14 @@ function App() {
             </IsPrivate>
           }
         ></Route>
-        <Route path="/recipes/new" element={<CreateRecipePage />}></Route>
+        <Route
+          path="/recipes/new"
+          element={
+            <IsPrivate>
+              <CreateRecipePage />
+            </IsPrivate>
+          }
+        ></Route>
         <Route
           path="/profile"
           element={

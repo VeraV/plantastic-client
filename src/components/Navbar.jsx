@@ -13,6 +13,11 @@ export const Navbar = () => {
       <Link to="/recipes">
         <button>Recipes</button>
       </Link>
+      {isLoggedIn && (
+        <Link to="/recipes/new">
+          <button>+ New Recipe</button>
+        </Link>
+      )}
       {!isLoggedIn && (
         <>
           <Link to="/signup">

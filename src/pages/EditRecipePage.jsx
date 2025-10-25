@@ -1,9 +1,12 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { CookingInstructions } from "../components/CookingInstructions";
-import { Ingredient } from "../components/Ingredient";
-import { AuthContext } from "../context/AuthContext";
+import {
+  showIngredients,
+  getIngredients,
+  showInstructions,
+  getInstructions,
+} from "../helpers/stringFormats";
 const API_URL = "http://localhost:5005";
 
 export const EditRecipePage = () => {
@@ -18,32 +21,6 @@ export const EditRecipePage = () => {
   const [duration, setDuration] = useState(15);
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
-
-  //const { currentUser } = useContext(AuthContext);
-
-  function showIngredients(arr) {
-    const formattedString = arr.join("\n");
-    return formattedString;
-  }
-
-  function getIngredients(str) {
-    const formattedArray = str.split("\n").map((el) => el.trim());
-    return formattedArray;
-  }
-
-  function showInstructions(str) {
-    return str
-      .split("|")
-      .map((el) => el.trim())
-      .join("\n");
-  }
-
-  function getInstructions(str) {
-    return str
-      .split("\n")
-      .map((el) => el.trim())
-      .join("|");
-  }
 
   useEffect(() => {
     async function getTheRecipe() {
@@ -72,23 +49,28 @@ export const EditRecipePage = () => {
       instructions: getInstructions(instructions),
     };
 
-    console.log(updatedRecipe);
-
     try {
       const { data } = await axios.put(
         `${API_URL}/api/recipes/${recipeId}`,
         updatedRecipe,
         { headers: { Authorization: `Bearer ${storedToken}` } }
       );
-      console.log(data);
       nav(`/recipes/${recipeId}`);
     } catch (error) {
       setErrorMessage(error.response.data.errorMessage);
     }
   }
 
-  function handleDeleteRecipe() {
-    console.log("deleting");
+  async function handleDeleteRecipe() {
+    try {
+      const { data } = await axios.delete(
+        `${API_URL}/api/recipes/${recipeId}`,
+        { headers: { Authorization: `Bearer ${storedToken}` } }
+      );
+      nav(`/recipes`);
+    } catch (error) {
+      setErrorMessage(error.response.data.errorMessage);
+    }
   }
 
   if (!name) {
