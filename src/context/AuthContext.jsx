@@ -6,7 +6,7 @@ const AuthContext = createContext();
 const API_URL = "http://localhost:5005";
 
 const AuthContentWrapper = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const nav = useNavigate();
@@ -28,13 +28,13 @@ const AuthContentWrapper = ({ children }) => {
         setIsLoggedIn(true);
       } catch (error) {
         console.log(error);
-        setCurrentUser({});
+        setCurrentUser(null);
         setIsLoading(false);
         setIsLoggedIn(false);
       }
     } else {
       setIsLoading(false);
-      setCurrentUser({});
+      setCurrentUser(null);
       setIsLoggedIn(false);
     }
   }
@@ -43,7 +43,7 @@ const AuthContentWrapper = ({ children }) => {
     localStorage.removeItem("authToken");
     nav("/login");
 
-    setCurrentUser({});
+    setCurrentUser(null);
     setIsLoading(false);
     setIsLoggedIn(false);
   }

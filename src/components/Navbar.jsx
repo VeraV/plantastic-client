@@ -10,6 +10,9 @@ export const Navbar = () => {
       <Link to="/">
         <button>Home</button>
       </Link>
+      <Link to="/recipes">
+        <button>Recipes</button>
+      </Link>
       {!isLoggedIn && (
         <>
           <Link to="/signup">

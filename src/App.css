@@ -1,0 +1,105 @@
+/* Recipes Page */
+.recipe-container {
+  display: flex;
+  justify-content: space-around;
+}
+.recipe-card {
+  width: 250px;
+  border: 1px solid green;
+  border-radius: 5px;
+}
+
+.recipe-card img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+/* One Recipe Page */
+.recipe-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recipe-page img {
+  width: 50vw;
+  height: 50vh;
+  object-fit: cover;
+}
+
+.recipe-details-container {
+  display: flex;
+  width: 50vw;
+}
+
+.ingredient-section {
+  width: 25%;
+  padding: 5px;
+}
+
+ul.ingredients li::marker {
+  color: green;
+}
+
+ul.ingredient {
+  list-style-position: outside;
+}
+
+.ingredient {
+  height: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.quantity {
+  text-align: right;
+  color: gray;
+}
+
+.instructions-section {
+  border: 1px solid gainsboro;
+  border-radius: 10px;
+  width: 75%;
+  text-align: left;
+  margin: 20px;
+}
+
+.instructions li {
+  margin-bottom: 20px;
+}
+
+/* Spinner */
+.loader {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  position: relative;
+}
+.loader::after,
+.loader::before {
+  content: "";
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid green;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: animloader 2s linear infinite;
+}
+.loader::after {
+  animation-delay: 1s;
+}
+
+@keyframes animloader {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}

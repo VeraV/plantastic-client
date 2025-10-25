@@ -11,7 +11,7 @@ export const LoginPage = () => {
   const API_URL = "http://localhost:5005";
   const navigate = useNavigate();
 
-  const { storeToken, authenticateUser, currentUser } = useContext(AuthContext);
+  const { storeToken, authenticateUser } = useContext(AuthContext);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -27,7 +27,6 @@ export const LoginPage = () => {
       const response = await axios.post(`${API_URL}/auth/login`, requestBody);
       storeToken(response.data.authToken);
       await authenticateUser();
-      console.log(currentUser);
       navigate("/profile");
     } catch (error) {
       const errorDescription = error.response.data.errorMessage;
