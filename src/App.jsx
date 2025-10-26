@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import "./embla.css";
 import { Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { SignupPage } from "./pages/SignupPage";

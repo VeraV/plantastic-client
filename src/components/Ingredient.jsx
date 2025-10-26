@@ -6,7 +6,8 @@ export const Ingredient = ({ ingredient }) => {
   return (
     <div className="ingredient">
       <p>{name}</p>
-      {ar[1] && <p className="quantity">{`${ar[1]}${ar[2]}`}</p>}
+      {/*ar[1] && <p className="quantity">{`${ar[1]}${ar[2]}`}</p>*/}
+      {ar[1] && <p className="quantity">{`${ar[1]}`}</p>}
     </div>
   );
 };
