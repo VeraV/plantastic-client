@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getIngredients, getInstructions } from "../helpers/stringFormats";
+import { addItemToList, addToTotalShoppingList } from "../helpers/listItems";
 import EmblaCarousel from "../components/EmblaCarousel";
 import { Ingredient } from "../components/Ingredient";
 import { AuthContext } from "../context/AuthContext";
@@ -10,7 +10,12 @@ const API_URL = "http://localhost:5005";
 
 export const CreatePlanPage = () => {
   const OPTIONS = { loop: true };
-  const { currentUser } = useContext(AuthContext);
+  const {
+    currentUser,
+    totalShoppingList,
+    setTotalShoppingList,
+    setShopListIsChanged,
+  } = useContext(AuthContext);
 
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState();
@@ -20,6 +25,7 @@ export const CreatePlanPage = () => {
   const [totalIngredients, setTotalIngredients] = useState([]);
 
   const [newPlanTotalIngr, setNewPlanTotalIngr] = useState([]);
+  const [shoppingItems, setShoppingItems] = useState([]);
 
   const nav = useNavigate();
   const storedToken = localStorage.getItem("authToken");
@@ -36,16 +42,16 @@ export const CreatePlanPage = () => {
     loadAllRecipes();
   }, []);
 
-  function ingredientObject(string) {
-    const ar = string.split("|").map((el) => el.trim());
-    const name = ar[0][0].toUpperCase() + ar[0].substring(1).toLowerCase();
-    const ingrObj = {
-      name,
-      quantity: ar[1] ? parseFloat(ar[1].match(/^\d+(\.\d+)?/)[0]) : 0,
-      unit: ar[1] ? ar[1].match(/[a-zA-Z]+$/)[0] : "",
-    };
-    return ingrObj;
-  }
+  // function ingredientObject(string) {
+  //   const ar = string.split("|").map((el) => el.trim());
+  //   const name = ar[0][0].toUpperCase() + ar[0].substring(1).toLowerCase();
+  //   const ingrObj = {
+  //     name,
+  //     quantity: ar[1] ? parseFloat(ar[1].match(/^\d+(\.\d+)?/)[0]) : 0,
+  //     unit: ar[1] ? ar[1].match(/[a-zA-Z]+$/)[0] : "",
+  //   };
+  //   return ingrObj;
+  // }
 
   //DB format: ["potato|3pieces+4kg","salt"]
   //Here:      [{potato: '3pieces+4kg'}, {salt: 0}]
@@ -62,35 +68,7 @@ export const CreatePlanPage = () => {
   //totalIngredience: [{'potato': ['2kg', 3pieces]}]
   function addIngredientsToTotal(theRecipe) {
     theRecipe.ingredients.forEach((ingr) => {
-      const ingrObj = ingredientObject(ingr);
-      const foundIngredient = totalIngredients.filter((el) => {
-        return Object.keys(el)[0] === ingrObj.name;
-      })[0];
-      //do we have this ingredient?
-      if (foundIngredient) {
-        const quanUnitArray = Object.values(foundIngredient)[0]
-          .split("+")
-          .map((e) => e.trim());
-        let doExist = false;
-        //looking for a proper unit
-        quanUnitArray.forEach((quanUnit, ind) => {
-          const quant = parseFloat(quanUnit.trim().match(/^\d+(\.\d+)?/)[0]);
-          const unit =
-            quant === 0 ? "" : quanUnit.trim().match(/[a-zA-Z]+$/)[0];
-          if (unit === ingrObj.unit) {
-            doExist = true;
-            quanUnitArray[ind] = `${quant + ingrObj.quantity}${unit}`;
-          }
-        });
-        if (!doExist) {
-          quanUnitArray.push(`${ingrObj.quantity}${ingrObj.unit}`);
-        }
-        foundIngredient[ingrObj.name] = quanUnitArray.join(" + ");
-      } else {
-        const newIngredient = {};
-        newIngredient[ingrObj.name] = `${ingrObj.quantity}${ingrObj.unit}`;
-        totalIngredients.push(newIngredient);
-      }
+      addItemToList(ingr, totalIngredients, setTotalIngredients);
     });
     refreshTotalIngredients();
   }
@@ -183,11 +161,34 @@ export const CreatePlanPage = () => {
       const { data } = await axios.post(`${API_URL}/api/plans`, newPlan, {
         headers: { Authorization: `Bearer ${storedToken}` },
       });
-      console.log(data);
+      //patch to shopping list (only need to update "items", ShoppingListId we have in data.shoppingListId)
+      const res = await axios.patch(
+        `${API_URL}/api/shopping-list/${data.shoppingListId}`,
+        { items: shoppingItems },
+        {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        }
+      );
+      //add all from shopping list to Total Shopping List, first convert Object to string
+      shoppingItems.forEach((item) => {
+        //console.log(strItem);
+        addToTotalShoppingList(item, totalShoppingList, setTotalShoppingList);
+        setShopListIsChanged(true);
+      });
+
       nav("/profile");
     } catch (error) {
       setErrorMessage(error.response.data.errorMessage);
     }
+  }
+
+  function handleAddToShoppingList(ingredient) {
+    if (shoppingItems.includes(ingredient)) return;
+    setShoppingItems([...shoppingItems, ingredient]);
+  }
+
+  function handleRemoveItemFromShop(indexToRemove) {
+    setShoppingItems(shoppingItems.filter((e, ind) => ind !== indexToRemove));
   }
 
   return (
@@ -198,7 +199,7 @@ export const CreatePlanPage = () => {
         <Link to="/profile">
           <button>Cancel</button>
         </Link>
-        <button>Save</button>
+        <button type="submit">Save</button>
         <hr />
         <label>
           Name:
@@ -237,13 +238,42 @@ export const CreatePlanPage = () => {
           <ul className="ingredients">
             {newPlanTotalIngr &&
               newPlanTotalIngr.map((oneIngr, ind) => {
-                //return <li key={ind}>{JSON.stringify(oneIngr)}</li>;
-                return <Ingredient key={ind} ingredient={oneIngr} />;
+                return (
+                  <div key={ind}>
+                    <Ingredient ingredient={oneIngr} />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleAddToShoppingList(oneIngr);
+                      }}
+                    >
+                      To Shopping List
+                    </button>
+                  </div>
+                );
               })}
           </ul>
         </section>
         <section>
           <h2>Shopping List:</h2>
+          {shoppingItems && (
+            <ul>
+              {shoppingItems.map((item, ind) => {
+                return (
+                  <li key={ind}>
+                    {item}
+                    <button
+                      onClick={() => {
+                        handleRemoveItemFromShop(ind);
+                      }}
+                    >
+                      No need
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </section>
         <hr />
         {recipesToChoose && (

@@ -1,16 +1,21 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { showIngredients, showInstructions } from "../helpers/stringFormats";
+import { addToTotalShoppingList } from "../helpers/listItems";
 import { Ingredient } from "../components/Ingredient";
+import { AuthContext } from "../context/AuthContext";
 
-export const PlanPage = () => {
+export const PlanPage = (props) => {
   const API_URL = "http://localhost:5005";
   const storedToken = localStorage.getItem("authToken");
   const { planId } = useParams();
   const [errorMessage, setErrorMessage] = useState(null);
   const [plan, setPlan] = useState();
   const [shoppingList, setShoppingList] = useState();
+
+  const { totalShoppingList, setTotalShoppingList, setShopListIsChanged } =
+    useContext(AuthContext);
 
   useEffect(() => {
     async function getPlanInfo() {
@@ -35,37 +40,51 @@ export const PlanPage = () => {
     getPlanInfo();
   }, [planId]);
 
-  
+  async function handleAddToShoppingList(itemToAdd) {
+    if (shoppingList.items.includes(itemToAdd)) return;
 
-  function addQuantity(oldQuanUnitStr, quantityToAdd, unitToAdd) {
-    const quantUnitArray = oldQuanUnitStr.split("+").map((e) => {
-      e.trim();
-      return [
-        parseFloat(e.trim().match(/^\d+(\.\d+)?/)[0]) /*quantity*/,
-        e.trim().match(/[a-zA-Z]+$/)[0] /*unit*/,
-      ];
-    }); //all quantity-unit we already have
+    setShoppingList({
+      ...shoppingList,
+      items: [...shoppingList.items, itemToAdd],
+    });
 
-    console.log(quantUnitArray);
+    //update db
+    try {
+      const { data } = await axios.patch(
+        `${API_URL}/api/shopping-list/${shoppingList._id}`,
+        { items: [...shoppingList.items, itemToAdd] },
+        { headers: { Authorization: `Bearer ${storedToken}` } }
+      );
+      console.log(data);
+
+      //console.log(strItem);
+      addToTotalShoppingList(
+        itemToAdd,
+        totalShoppingList,
+        setTotalShoppingList
+      );
+      setShopListIsChanged(true);
+    } catch (error) {
+      setErrorMessage(error.response.data.errorMessage);
+    }
   }
 
-  function showTotalIngredients() {
-    const totalIngredients = {};
-    plan.recipes.forEach((recipe) => {
-      recipe.ingredients.forEach((ingredient) => {
-        const ingr = ingredientObject(ingredient);
-        if (!Object.keys(totalIngredients).includes(ingr.name)) {
-          totalIngredients[ingr.name] = `${ingr.quantity}${ingr.unit}`;
-        } else {
-          const newQuanUnit = addQuantity(
-            totalIngredients[ingr.name],
-            ingr.quantity,
-            ingr.unit
-          );
-        }
-      });
+  async function handleRemoveItemFromShop(indexToRemove) {
+    setShoppingList({
+      ...shoppingList,
+      items: shoppingList.items.filter((e, i) => i !== indexToRemove),
     });
-    console.log(totalIngredients);
+    //update db
+    try {
+      const { data } = await axios.patch(
+        `${API_URL}/api/shopping-list/${shoppingList._id}`,
+        { items: shoppingList.items.filter((e, i) => i !== indexToRemove) },
+        { headers: { Authorization: `Bearer ${storedToken}` } }
+      );
+      console.log(data);
+    } catch (error) {
+      setErrorMessage(error.response.data.errorMessage);
+    }
   }
 
   if (!plan) {
@@ -94,6 +113,13 @@ export const PlanPage = () => {
             return (
               <li key={ind}>
                 <Ingredient ingredient={oneIngr} />
+                <button
+                  onClick={() => {
+                    handleAddToShoppingList(oneIngr);
+                  }}
+                >
+                  To Shopping List
+                </button>
               </li>
             );
           })}
@@ -107,6 +133,13 @@ export const PlanPage = () => {
               return (
                 <li key={ind}>
                   <Ingredient ingredient={item} />
+                  <button
+                    onClick={() => {
+                      handleRemoveItemFromShop(ind);
+                    }}
+                  >
+                    No need
+                  </button>
                 </li>
               );
             })}

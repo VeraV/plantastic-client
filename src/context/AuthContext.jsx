@@ -9,6 +9,9 @@ const AuthContentWrapper = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [totalShoppingList, setTotalShoppingList] = useState(null);
+  const [shopListIsChanged, setShopListIsChanged] = useState(false);
+  const [totalShoppingListId, setTotalShoppingListId] = useState(null);
   const nav = useNavigate();
 
   const storeToken = (token) => {
@@ -24,6 +27,13 @@ const AuthContentWrapper = ({ children }) => {
           headers: { authorization: `Bearer ${theToken}` },
         });
         setCurrentUser(data);
+        const res = await axios.get(
+          `${API_URL}/api/shopping-list/user/${data._id}`,
+          { headers: { Authorization: `Bearer ${theToken}` } }
+        );
+        setTotalShoppingList(res.data.items);
+        setTotalShoppingListId(res.data._id);
+
         setIsLoading(false);
         setIsLoggedIn(true);
       } catch (error) {
@@ -61,6 +71,11 @@ const AuthContentWrapper = ({ children }) => {
         authenticateUser,
         handleLogout,
         storeToken,
+        totalShoppingList,
+        setTotalShoppingList,
+        shopListIsChanged,
+        setShopListIsChanged,
+        totalShoppingListId,
       }}
     >
       {children}

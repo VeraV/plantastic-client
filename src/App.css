@@ -114,14 +114,20 @@ ul.ingredient {
 .plans-container {
   background-color: antiquewhite;
   display: flex;
+  flex-wrap: wrap;
   min-height: 100%;
   min-width: 70%;
 }
 
 .total-shopping-list {
   background-color: rgb(148, 3, 170);
+  color: white;
   min-height: 100%;
   min-width: 30%;
+}
+
+.total-shopping-list .quantity {
+  color: white;
 }
 
 .plan {

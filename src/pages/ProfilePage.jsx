@@ -3,14 +3,26 @@ import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Ingredient } from "../components/Ingredient";
+//import { ingredientObject } from "../helpers/listItems";
 
 export const ProfilePage = () => {
   const API_URL = "http://localhost:5005";
   const storedToken = localStorage.getItem("authToken");
-  const { currentUser } = useContext(AuthContext);
+  const {
+    currentUser,
+    totalShoppingList,
+    setTotalShoppingList,
+    setShopListIsChanged,
+    shopListIsChanged,
+    totalShoppingListId,
+  } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState();
   const [plans, setPlans] = useState(null);
-  const [shoppingList, setShoppingList] = useState(null);
+  const [editItemMode, setEditItemMode] = useState(
+    new Array(totalShoppingList.length).fill(false)
+  );
+  const [items, setItems] = useState(totalShoppingList);
+
   /********** Export **************/
   async function shareShoppingList() {
     const shoppingItems = ["Milk", "Eggs", "Bananas"];
@@ -55,17 +67,70 @@ export const ProfilePage = () => {
           { headers: { Authorization: `Bearer ${storedToken}` } }
         );
         setPlans(data);
-        const res = await axios.get(
-          `${API_URL}/api/shopping-list/user/${currentUser._id}`,
-          { headers: { Authorization: `Bearer ${storedToken}` } }
-        );
-        setShoppingList(res.data);
       } catch (error) {
         setErrorMessage(error.response.data.errorMessage);
       }
     }
     loadAllUserProfileData();
   }, []);
+
+  async function saveTotalShoppingList() {
+    try {
+      const { data } = await axios.patch(
+        `${API_URL}/api/shopping-list/${totalShoppingListId}`,
+        { items: totalShoppingList },
+        { headers: { Authorization: `Bearer ${storedToken}` } }
+      );
+      setShopListIsChanged(false);
+    } catch (error) {
+      setErrorMessage(error.response.data.errorMessage);
+    }
+  }
+
+  function handleRemoveItem(indexToRemove) {
+    setTotalShoppingList(
+      totalShoppingList.filter((e, ind) => ind !== indexToRemove)
+    );
+    setItems(items.filter((e, ind) => ind !== indexToRemove));
+    setEditItemMode(editItemMode.filter((e, ind) => ind !== indexToRemove));
+
+    setShopListIsChanged(true);
+  }
+
+  function handleItemSave(index) {
+    setTotalShoppingList(
+      totalShoppingList.map((e, ind) => {
+        if (ind === index) return items[index];
+        else return e;
+      })
+    );
+    setEditItemMode(editItemMode.fill(false));
+    setShopListIsChanged(true);
+  }
+
+  function cancelEditingItem() {
+    setItems(totalShoppingList);
+    setEditItemMode(editItemMode.fill(false));
+  }
+
+  function handleItemChange(index, newValue) {
+    setItems(
+      items.map((e, ind) => {
+        if (ind === index) return newValue;
+        else return e;
+      })
+    );
+  }
+
+  function clickEdit(index) {
+    setEditItemMode(editItemMode.map((e, ind) => ind === index));
+  }
+
+  function handleClearAll() {
+    setTotalShoppingList([]);
+    setItems([]);
+    setShopListIsChanged(true);
+  }
 
   if (!plans) {
     return <span className="loader"></span>;
@@ -94,18 +159,75 @@ export const ProfilePage = () => {
         </section>
         <section className="total-shopping-list">
           <p>Shopping List</p>
-          {shoppingList && (
-            <ul className="ingredients">
-              {shoppingList.items.map((item, ind) => {
-                return (
-                  <li key={ind}>
-                    <Ingredient ingredient={item} />
-                  </li>
-                );
-              })}
-            </ul>
+          {totalShoppingList && (
+            <div>
+              <ul className="ingredients">
+                {totalShoppingList.map((item, ind) => {
+                  return (
+                    <li key={ind}>
+                      {!editItemMode[ind] ? (
+                        <Ingredient ingredient={item} />
+                      ) : (
+                        <div>
+                          <input
+                            value={items[ind]}
+                            onChange={(e) => {
+                              handleItemChange(ind, e.target.value);
+                            }}
+                          />
+                          <button type="button" onClick={cancelEditingItem}>
+                            Cancel
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleItemSave(ind);
+                            }}
+                          >
+                            Update
+                          </button>
+                        </div>
+                      )}
+
+                      {!editItemMode.includes(true) && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            clickEdit(ind);
+                          }}
+                        >
+                          Edit
+                        </button>
+                      )}
+                      {!editItemMode.includes(true) && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleRemoveItem(ind);
+                          }}
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+              {totalShoppingList.length > 0 && (
+                <button type="button" onClick={handleClearAll}>
+                  Clear All
+                </button>
+              )}
+            </div>
           )}
-          <button onClick={shareShoppingList}>Export</button>
+          {shopListIsChanged && !editItemMode.includes(true) && (
+            <button type="button" onClick={saveTotalShoppingList}>
+              Save
+            </button>
+          )}
+          {!editItemMode.includes(true) && totalShoppingList.length > 0 && (
+            <button onClick={shareShoppingList}>Export</button>
+          )}
         </section>
       </main>
 
