@@ -168,7 +168,6 @@ export const ProfilePage = () => {
                   <div
                     className="card add-plan-card shadow-card text-light bg-success d-flex align-items-center justify-content-center h-100 p-4 no-text-decoration"
                     style={{ cursor: "pointer" }}
-                    onClick={() => alert("Create new plan")}
                   >
                     <div className="text-center">
                       <span className="display-6">＋</span>
@@ -211,22 +210,24 @@ export const ProfilePage = () => {
                               handleItemChange(index, e.target.value);
                             }}
                           />
-                          <button
-                            class="btn btn-outline-danger"
-                            type="button"
-                            onClick={cancelEditingItem}
-                          >
-                            <i class="bi bi-x-lg"></i>
-                          </button>
-                          <button
-                            class="btn btn-primary"
-                            onClick={() => {
-                              handleItemSave(index);
-                            }}
-                            type="button"
-                          >
-                            <i class="bi bi-check-lg"></i>
-                          </button>
+                          <div className="btn-group btn-group-sm">
+                            <button
+                              class="btn btn-outline-danger"
+                              type="button"
+                              onClick={cancelEditingItem}
+                            >
+                              <i class="bi bi-x-lg"></i>
+                            </button>
+                            <button
+                              class="btn btn-primary"
+                              onClick={() => {
+                                handleItemSave(index);
+                              }}
+                              type="button"
+                            >
+                              <i class="bi bi-check-lg"></i>
+                            </button>
+                          </div>
                         </div>
                       )}
 

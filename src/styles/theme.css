@@ -69,3 +69,138 @@ h3 {
 .shopping-list {
   background-color: #f7fff9;
 }
+
+/* --- Embla Carousel --- */
+/* .embla {
+  position: relative;
+  overflow: hidden;
+}
+
+.embla__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.embla__container {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.embla__slide {
+  flex: 0 0 280px; /* Adjust for number of slides visible 
+  min-width: 0;
+}
+
+.embla__buttons button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Recipe card inside carousel */
+/*.recipe-card {
+  border-radius: 16px;
+  background-color: #ffffff;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-card img {
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.recipe-card h5 {
+  font-family: "Poppins", sans-serif;
+}*/
+
+/* Carousel control area */
+/*.embla__controls {
+  margin-top: 1rem;
+}
+
+.embla__buttons button {
+  border-width: 2px;
+  transition: all 0.2s ease;
+}
+
+.embla__buttons button:hover {
+  background-color: var(--bs-success);
+  color: white;
+  border-color: var(--bs-success);
+} */
+
+/* --- Picked Recipes (mini cards) --- */
+.recipe-mini-card {
+  background-color: #f7fdf8;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  width: calc(50% - 0.5rem); /* Two per row on desktop */
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.recipe-mini-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.recipe-mini-img {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 0.75rem;
+}
+
+.recipe-mini-card h6 {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  margin-bottom: 0.1rem;
+}
+
+.recipe-mini-card small {
+  font-size: 0.8rem;
+  color: #6b7280; /* subtle gray */
+}
+
+@media (max-width: 768px) {
+  .recipe-mini-card {
+    width: 100%;
+  }
+}
+
+/**/
+
+.btn-small {
+  --bs-btn-padding-y: 0.25rem;
+  --bs-btn-padding-x: 0.5rem;
+  --bs-btn-font-size: 0.75rem;
+}
+
+/**/
+
+/* Ingredients list in two columns */
+.ingredients-list {
+  columns: 2; /* two equal columns */
+  column-gap: 1.5rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.ingredients-list li {
+  break-inside: avoid;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .ingredients-list {
+    columns: 1; /* stack on smaller screens */
+  }
+}

@@ -193,97 +193,140 @@ export const CreatePlanPage = () => {
 
   return (
     <div>
-      <h1>New Plan Page</h1>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <form onSubmit={handleCreatePlan}>
-        <Link to="/profile">
-          <button>Cancel</button>
-        </Link>
-        <button type="submit">Save</button>
-        <hr />
-        <label>
-          Name:
+      <div className="container py-5">
+        {/* HEADER AREA */}
+        <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
           <input
             type="text"
+            className="form-control plan-name-input flex-grow-1"
+            placeholder="Name your meal plan..."
             value={name}
             onChange={(e) => {
               setName(e.target.value);
             }}
           />
-        </label>
-        <section>
-          <h2>Recipes:</h2>
-          <div className="recipe-container">
-            {recipesInPlan &&
-              recipesInPlan.map((recipe) => {
-                return (
-                  <div className="recipe-card" key={recipe._id}>
-                    <h4>{recipe.name}</h4>
-                    <img src={recipe.image} alt={recipe.name} />
-                    <p>{recipe.duration} mins to cook</p>
-                    <button
-                      onClick={(e) => {
-                        handleRemoveFromPlan(e, recipe._id);
-                      }}
-                    >
-                      Remove From Plan
-                    </button>
-                  </div>
-                );
-              })}
+          <div className="d-flex gap-2">
+            <Link to="/profile">
+              <button className="btn btn-outline-secondary">← Back</button>
+            </Link>
+            <button className="btn btn-primary" onClick={handleCreatePlan}>
+              💾 Save Plan
+            </button>
           </div>
-        </section>
-        <section>
-          <h2>Total ingredients:</h2>
-          <ul className="ingredients">
-            {newPlanTotalIngr &&
-              newPlanTotalIngr.map((oneIngr, ind) => {
-                return (
-                  <div key={ind}>
-                    <Ingredient ingredient={oneIngr} />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleAddToShoppingList(oneIngr);
-                      }}
-                    >
-                      To Shopping List
-                    </button>
-                  </div>
-                );
-              })}
-          </ul>
-        </section>
-        <section>
-          <h2>Shopping List:</h2>
-          {shoppingItems && (
-            <ul>
-              {shoppingItems.map((item, ind) => {
-                return (
-                  <li key={ind}>
-                    {item}
-                    <button
-                      onClick={() => {
-                        handleRemoveItemFromShop(ind);
-                      }}
-                    >
-                      No need
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
+        </div>
+
+        {/* --- TOP SECTION --- */}
+        <div className="top-section mb-5">
+          <div className="row g-4">
+            {/* Picked Recipes */}
+            <div className="col-12 col-lg-7">
+              <div className="card shadow-card p-4 h-100">
+                <h4 className="fw-bold text-primary mb-3">Picked Recipes</h4>
+                <div className="d-flex flex-wrap gap-3">
+                  {recipesInPlan &&
+                    recipesInPlan.map((recipe) => (
+                      <div
+                        key={recipe._id}
+                        className="recipe-mini-card d-flex align-items-center p-2 justify-content-between"
+                      >
+                        <div className="d-flex align-items-center">
+                          <img
+                            src={recipe.image}
+                            alt={recipe.name}
+                            className="recipe-mini-img me-2"
+                          />
+                          <div>
+                            <h6 className="mb-1 fw-semibold">{recipe.name}</h6>
+                            <small className="text-secondary">
+                              {recipe.duration} mins to cook
+                            </small>
+                          </div>
+                        </div>
+                        <button
+                          className="btn btn-outline-danger btn-sm"
+                          onClick={(e) => {
+                            handleRemoveFromPlan(e, recipe._id);
+                          }}
+                        >
+                          <i className="bi bi-x-lg"></i>
+                        </button>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Ingredients + Shopping List */}
+            <div className="col-12 col-lg-5 d-flex flex-column gap-4">
+              {/* Ingredients */}
+              <div className="card shadow-card p-4 flex-grow-1">
+                <h5 className="fw-bold text-success mb-3">Ingredients</h5>
+                <ul className="ingredients-list mb-0">
+                  {newPlanTotalIngr &&
+                    newPlanTotalIngr.map((item, i) => (
+                      <li key={i} className="mb-2">
+                        <div className="d-flex align-items-center gap-2">
+                          <Ingredient ingredient={item} />
+                          <button
+                            type="button"
+                            className="btn btn-outline-success btn-small"
+                            onClick={() => {
+                              handleAddToShoppingList(item);
+                            }}
+                          >
+                            <i className="bi bi-bag-plus-fill"></i>
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+
+              {/* Shopping List */}
+              <div className="card shadow-card p-4 flex-grow-1">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h5 className="fw-bold text-success mb-0">Shopping List</h5>
+                </div>
+                {shoppingItems && (
+                  <ul className="list-unstyled mb-3">
+                    {shoppingItems.map((item, i) => (
+                      <li
+                        key={i}
+                        className="d-flex justify-content-between align-items-center mb-2"
+                      >
+                        <span>{item}</span>
+                        <div className="btn-group btn-group-sm">
+                          <button
+                            className="btn btn-outline-danger"
+                            onClick={() => {
+                              handleRemoveItemFromShop(i);
+                            }}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* --- BOTTOM SECTION (Carousel) --- */}
+        <div className="bottom-section">
+          <h4 className="fw-bold text-primary mb-3">Add More Recipes</h4>
+          {recipesToChoose && (
+            <EmblaCarousel
+              slides={recipesToChoose}
+              options={OPTIONS}
+              handleAddRecipe={handleAddRecipe}
+            />
           )}
-        </section>
-        <hr />
-        {recipesToChoose && (
-          <EmblaCarousel
-            slides={recipesToChoose}
-            options={OPTIONS}
-            handleAddRecipe={handleAddRecipe}
-          />
-        )}
-      </form>
+        </div>
+      </div>
     </div>
   );
 };
