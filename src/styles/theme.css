@@ -1,0 +1,71 @@
+/* Typography */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600&display=swap");
+
+:root {
+  /* Plantastic colors */
+
+  --bs-primary: #2ba84a !important;
+  --bs-primary-rgb: 43, 168, 74;
+  --bs-success: #4ade80;
+  --bs-warning: #facc15;
+  --bs-danger: #e11d48;
+  --bs-info: #f57c00;
+
+  /*--color-primary-hover: #1E7A35;*/
+  /*--color-accent: #F57C00;*/
+  --color-bg: #fcfcf9;
+  --color-surface: #f2f8f3;
+  --color-text: #1e1e1e;
+  --color-text-secondary: #6b6b6b;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  /* Fonts */
+  --bs-body-font-family: "Inter", sans-serif;
+  --bs-body-color: #1e1e1e;
+  --bs-heading-font-family: "Poppins", sans-serif;
+  --bs-border-radius: 12px;
+}
+
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: #fff; /* keep text readable */
+}
+
+.btn-outline-primary {
+  border-color: var(--bs-primary);
+  color: var(--bs-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-outline-primary:hover,
+.btn-outline-prinary:focus {
+  background-color: #1e7a35; /* your hover green */
+  border-color: #1e7a35;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--bs-body-color);
+  background-color: var(--color-bg);
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Poppins", sans-serif;
+  color: var(--color-text);
+}
+
+.error-message {
+  color: var(--bs-danger);
+}
+
+.shopping-list {
+  background-color: #f7fff9;
+}

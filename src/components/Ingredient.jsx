@@ -6,9 +6,11 @@ export const Ingredient = ({ ingredient }) => {
 
   return (
     <div className="ingredient">
-      <p>{name}</p>
-      {/*ar[1] && <p className="quantity">{`${ar[1]}${ar[2]}`}</p>*/}
-      {ar[1] && <p className="quantity">{`${ar[1]}`}</p>}
+      <p className="ingredient-name">
+        <span className="carrot-list-bullet">🥕</span>
+        {name}
+      </p>
+      <p className="quantity">{ar[1] && `${ar[1]}`}</p>
     </div>
   );
 };

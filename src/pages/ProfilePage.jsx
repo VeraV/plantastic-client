@@ -138,100 +138,160 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <h1>Profile Page</h1>
-      <main className="profile-page-content">
-        <section className="plans-container">
-          {plans.map((onePlan) => {
-            return (
-              <Link to={`/plan/${onePlan._id}`} key={onePlan._id}>
-                <div className="plan">
-                  <h4>{onePlan.name}</h4>
-                  <p>{onePlan.recipesNumber} recipes</p>
+      <div className="container py-5">
+        <div className="row g-4">
+          {/* Left column – Meal Plans */}
+          <div className="col-12 col-lg-8">
+            <h2 className="fw-bold text-primary mb-4">My Meal Plans</h2>
+
+            <div className="row g-3">
+              {plans.map((onePlan) => (
+                <div key={onePlan._id} className="col-12 col-md-6">
+                  <Link
+                    to={`/plan/${onePlan._id}`}
+                    className="text-decoration-none text-dark"
+                  >
+                    <div className="card plan-card shadow-card p-4 h-100">
+                      <h5 className="fw-bold mb-2">{onePlan.name}</h5>
+                      <p className="text-secondary mb-0">
+                        {onePlan.recipesNumber} recipes inside
+                      </p>
+                    </div>
+                  </Link>
                 </div>
-              </Link>
-            );
-          })}
-          <Link to="/plan/new">
-            <div className="plan">
-              <h4>+ Add New Plan</h4>
+              ))}
+
+              {/* Add new plan */}
+
+              <div className="col-12 col-md-6 ">
+                <Link to="/plan/new" className="text-decoration-none">
+                  <div
+                    className="card add-plan-card shadow-card text-light bg-success d-flex align-items-center justify-content-center h-100 p-4 no-text-decoration"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => alert("Create new plan")}
+                  >
+                    <div className="text-center">
+                      <span className="display-6">＋</span>
+                      <p className="fw-semibold mt-2 mb-0 ">Create New Plan</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
             </div>
-          </Link>
-        </section>
-        <section className="total-shopping-list">
-          <p>Shopping List</p>
-          {totalShoppingList && (
-            <div>
-              <ul className="ingredients">
-                {totalShoppingList.map((item, ind) => {
-                  return (
-                    <li key={ind}>
-                      {!editItemMode[ind] ? (
+          </div>
+
+          {/* Right column – Shopping List */}
+          <div className="col-12 col-lg-4">
+            <div
+              className="card shadow-card p-4 position-sticky shopping-list"
+              style={{ top: "2rem" }}
+            >
+              <h4 className="fw-bold text-success mb-3">Shopping List</h4>
+
+              {totalShoppingList.length === 0 ? (
+                <p className="text-secondary fst-italic">
+                  Your shopping list is empty.
+                </p>
+              ) : (
+                <ul className="list-unstyled">
+                  {totalShoppingList.map((item, index) => (
+                    <li
+                      key={index}
+                      className="d-flex justify-content-between align-items-center mb-2"
+                    >
+                      {!editItemMode[index] ? (
                         <Ingredient ingredient={item} />
                       ) : (
-                        <div>
+                        <div class="d-flex align-items-center gap-2">
                           <input
-                            value={items[ind]}
+                            type="text"
+                            class="form-control flex-grow-1"
+                            value={items[index]}
                             onChange={(e) => {
-                              handleItemChange(ind, e.target.value);
+                              handleItemChange(index, e.target.value);
                             }}
                           />
-                          <button type="button" onClick={cancelEditingItem}>
-                            Cancel
+                          <button
+                            class="btn btn-outline-danger"
+                            type="button"
+                            onClick={cancelEditingItem}
+                          >
+                            <i class="bi bi-x-lg"></i>
                           </button>
                           <button
-                            type="button"
+                            class="btn btn-primary"
                             onClick={() => {
-                              handleItemSave(ind);
+                              handleItemSave(index);
                             }}
+                            type="button"
                           >
-                            Update
+                            <i class="bi bi-check-lg"></i>
                           </button>
                         </div>
                       )}
 
-                      {!editItemMode.includes(true) && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            clickEdit(ind);
-                          }}
-                        >
-                          Edit
-                        </button>
-                      )}
-                      {!editItemMode.includes(true) && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            handleRemoveItem(ind);
-                          }}
-                        >
-                          Remove
-                        </button>
-                      )}
+                      <div className="btn-group btn-group-sm">
+                        {!editItemMode.includes(true) && (
+                          <button
+                            className="btn btn-outline-success"
+                            onClick={() => {
+                              clickEdit(index);
+                            }}
+                          >
+                            <i className="bi bi-pencil-fill"></i>
+                          </button>
+                        )}
+                        {!editItemMode.includes(true) && (
+                          <button
+                            className="btn btn-outline-danger"
+                            onClick={() => {
+                              handleRemoveItem(index);
+                            }}
+                          >
+                            <i className="bi bi-eraser-fill"></i>
+                          </button>
+                        )}
+                      </div>
                     </li>
-                  );
-                })}
-              </ul>
-              {totalShoppingList.length > 0 && (
-                <button type="button" onClick={handleClearAll}>
-                  Clear All
-                </button>
+                  ))}
+                </ul>
               )}
-            </div>
-          )}
-          {shopListIsChanged && !editItemMode.includes(true) && (
-            <button type="button" onClick={saveTotalShoppingList}>
-              Save
-            </button>
-          )}
-          {!editItemMode.includes(true) && totalShoppingList.length > 0 && (
-            <button onClick={shareShoppingList}>Export</button>
-          )}
-        </section>
-      </main>
 
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+              {/* Actions */}
+              <div className="d-flex justify-content-between mt-3">
+                {totalShoppingList.length > 0 &&
+                  !editItemMode.includes(true) && (
+                    <button
+                      className="btn btn-outline-danger btn-sm"
+                      onClick={handleClearAll}
+                    >
+                      <i className="bi bi-trash"></i> Clear All
+                    </button>
+                  )}
+
+                {shopListIsChanged && !editItemMode.includes(true) && (
+                  <button
+                    className="btn btn-primary btn-sm"
+                    type="button"
+                    onClick={saveTotalShoppingList}
+                  >
+                    Save
+                  </button>
+                )}
+                {!editItemMode.includes(true) &&
+                  totalShoppingList.length > 0 && (
+                    <button
+                      className="btn btn-outline-primary btn-sm"
+                      onClick={shareShoppingList}
+                    >
+                      Export <i className="bi bi-box-arrow-up-right"></i>
+                    </button>
+                  )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

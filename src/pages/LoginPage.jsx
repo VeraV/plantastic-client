@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import CarrotLogo from "../assets/logo.png";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -35,33 +36,65 @@ export const LoginPage = () => {
   }
 
   return (
-    <div>
-      <h1>Login Page</h1>
-      <form onSubmit={handleLogin}>
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+    <div className="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+      <div
+        className="card shadow-card p-4 p-md-5"
+        style={{ maxWidth: "400px", width: "100%" }}
+      >
+        {/* Logo */}
+        <div className="text-center mb-4">
+          <img
+            src={CarrotLogo}
+            alt="Plantastic logo"
+            width={48}
+            height={48}
+            className="mb-2"
           />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
+          <h2 className="fw-bold text-primary">Plantastic</h2>
+        </div>
 
-        <button type="submit">Let me in!</button>
-      </form>
+        {/* Login form */}
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label fw-semibold">
+              Email
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label fw-semibold">
+              Password
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              placeholder="********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <button type="submit" className="btn btn-primary w-100 mt-3">
+            Let me in!
+          </button>
+        </form>
 
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-      <p>Don't have an account?</p>
-      <Link to={"/signup"}>Sign Here</Link>
+        {/* Links */}
+        <div className="text-center mt-3">
+          <p className="mb-1">Don't have an account?</p>
+          <p>
+            <Link to="/signup">Sign Up</Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
