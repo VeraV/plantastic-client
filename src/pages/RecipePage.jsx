@@ -41,7 +41,7 @@ export const RecipePage = () => {
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <p className="card-text text-center">
           <small className="text-body-secondary">
-            Time to Cook: {theRecipe.duration} mins
+            ⏱ {theRecipe.duration} mins
           </small>
         </p>
         <img

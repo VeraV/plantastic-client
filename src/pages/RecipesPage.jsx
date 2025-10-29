@@ -23,28 +23,29 @@ export const RecipesPage = () => {
 
   return (
     <div>
-      <div className="container py-5">
-        <h1 className="mb-5 fw-bold text-center text-primary">Recipes</h1>
-        <Link to="/profile">
-          <button className="btn btn-primary">
-            {currentUser ? "Go to my Profile!" : "Create My Own Meal Plan!"}
-          </button>
+      <div className="container py-5 text-center recipes-page">
+        <h1 className="mb-5 fw-bold text-primary">Recipes</h1>
+        <Link to="/profile" className="btn btn-primary mb-5">
+          {currentUser ? "Go to my Profile!" : "Create My Own Meal Plan!"}
         </Link>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div className="row g-2">
           {recipes &&
             recipes.map((recipe) => (
-              <div key={recipe._id} className="col-12 col-md-6 col-lg-4">
+              <div
+                key={recipe._id}
+                className="col-12 col-md-6 col-lg-4 recipe-card"
+              >
                 <div className="card recipe-card h-50 shadow-card">
                   <img
                     src={recipe.image}
                     className="card-img-top"
                     alt={recipe.name}
                   />
-                  <div className="card-body d-flex flex-column text-center">
+                  <div className="card-body color-light d-flex flex-column text-center">
                     <h5 className="card-title fw-bold">{recipe.name}</h5>
                     <p className="card-text text-secondary">
-                      {recipe.duration} mins to cook
+                      ⏱ {recipe.duration} mins
                     </p>
                     <div className="mt-auto d-flex gap-2">
                       <Link

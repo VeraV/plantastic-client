@@ -201,10 +201,10 @@ export const ProfilePage = () => {
                       {!editItemMode[index] ? (
                         <Ingredient ingredient={item} />
                       ) : (
-                        <div class="d-flex align-items-center gap-2">
+                        <div className="d-flex align-items-center gap-2">
                           <input
                             type="text"
-                            class="form-control flex-grow-1"
+                            className="form-control flex-grow-1"
                             value={items[index]}
                             onChange={(e) => {
                               handleItemChange(index, e.target.value);
@@ -212,20 +212,20 @@ export const ProfilePage = () => {
                           />
                           <div className="btn-group btn-group-sm">
                             <button
-                              class="btn btn-outline-danger"
+                              className="btn btn-outline-danger"
                               type="button"
                               onClick={cancelEditingItem}
                             >
-                              <i class="bi bi-x-lg"></i>
+                              <i className="bi bi-x-lg"></i>
                             </button>
                             <button
-                              class="btn btn-primary"
+                              className="btn btn-primary"
                               onClick={() => {
                                 handleItemSave(index);
                               }}
                               type="button"
                             >
-                              <i class="bi bi-check-lg"></i>
+                              <i className="bi bi-check-lg"></i>
                             </button>
                           </div>
                         </div>

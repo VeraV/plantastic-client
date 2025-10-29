@@ -40,18 +40,18 @@ export const EditRecipePage = () => {
   async function handleUpdateRecipe(e) {
     e.preventDefault();
 
-    const updatedRecipe = {
-      name,
-      image,
-      duration,
-      ingredients: getIngredients(ingredients),
-      instructions: getInstructions(instructions),
-    };
-
     try {
+      const image = e.target.image.files[0];
+      const formData = new FormData();
+      formData.append("imageUrl", image);
+      formData.append("name", name);
+      formData.append("duration", duration);
+      formData.append("ingredients", getIngredients(ingredients));
+      formData.append("instructions", getInstructions(instructions));
+
       const { data } = await axios.put(
         `${API_URL}/api/recipes/${recipeId}`,
-        updatedRecipe,
+        formData,
         { headers: { Authorization: `Bearer ${storedToken}` } }
       );
       nav(`/recipes/${recipeId}`);
@@ -105,19 +105,24 @@ export const EditRecipePage = () => {
           </div>
 
           {/* Image URL */}
-          <div className="mb-3">
+          <div className="d-flex align-items-center gap-3 mb-3">
+            {/* Image preview */}
+            <img
+              src={image}
+              alt={name}
+              className="img-preview rounded shadow-sm"
+            />
+            {/* File upload input */}
             <label className="form-label fw-semibold" htmlFor="image">
-              Image URL
+              Change Image
             </label>
             <input
               id="image"
               name="image"
-              type="url"
-              className="form-control"
-              placeholder="https://example.com/image.jpg"
-              value={image}
+              type="file"
+              className="form-control form-control-sm"
               onChange={(e) => {
-                setImage(e.target.value);
+                setImage(URL.createObjectURL(e.target.files[0]));
               }}
             />
           </div>

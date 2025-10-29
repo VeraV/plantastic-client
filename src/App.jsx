@@ -15,22 +15,46 @@ import { CreateRecipePage } from "./pages/CreateRecipePage";
 import IsPrivate from "./components/IsPrivate";
 import { PlanPage } from "./pages/PlanPage";
 import { CreatePlanPage } from "./pages/CreatePlanPage";
+import { PlantasticOutlet } from "./components/PlantasticOutlet";
 
 function App() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Routes>
-        <Route path="/" element={<HomePage />}></Route>
+        <Route
+          path="/"
+          element={
+            <PlantasticOutlet>
+              <HomePage />
+            </PlantasticOutlet>
+          }
+        ></Route>
         <Route path="/signup" element={<SignupPage />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
-        <Route path="/recipes" element={<RecipesPage />}></Route>
-        <Route path="/recipes/:recipeId" element={<RecipePage />}></Route>
+        <Route
+          path="/recipes"
+          element={
+            <PlantasticOutlet>
+              <RecipesPage />
+            </PlantasticOutlet>
+          }
+        ></Route>
+        <Route
+          path="/recipes/:recipeId"
+          element={
+            <PlantasticOutlet>
+              <RecipePage />
+            </PlantasticOutlet>
+          }
+        ></Route>
         <Route
           path="/recipes/:recipeId/edit"
           element={
             <IsPrivate>
-              <EditRecipePage />
+              <PlantasticOutlet>
+                <EditRecipePage />
+              </PlantasticOutlet>
             </IsPrivate>
           }
         ></Route>
@@ -38,7 +62,9 @@ function App() {
           path="/recipes/new"
           element={
             <IsPrivate>
-              <CreateRecipePage />
+              <PlantasticOutlet>
+                <CreateRecipePage />
+              </PlantasticOutlet>
             </IsPrivate>
           }
         ></Route>
@@ -46,7 +72,9 @@ function App() {
           path="/profile"
           element={
             <RouteProtector>
-              <ProfilePage />
+              <PlantasticOutlet>
+                <ProfilePage />
+              </PlantasticOutlet>
             </RouteProtector>
           }
         ></Route>
@@ -54,7 +82,9 @@ function App() {
           path="/plan/:planId"
           element={
             <RouteProtector>
-              <PlanPage />
+              <PlantasticOutlet>
+                <PlanPage />
+              </PlantasticOutlet>
             </RouteProtector>
           }
         ></Route>
@@ -62,7 +92,9 @@ function App() {
           path="/plan/new"
           element={
             <RouteProtector>
-              <CreatePlanPage />
+              <PlantasticOutlet>
+                <CreatePlanPage />
+              </PlantasticOutlet>
             </RouteProtector>
           }
         ></Route>

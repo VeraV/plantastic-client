@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import CarrotLogo from "../assets/logo.png";
-import HomeIcon from "../assets/house-door.svg";
 
 export const Navbar = () => {
   const { isLoggedIn, currentUser, handleLogout } = useContext(AuthContext);

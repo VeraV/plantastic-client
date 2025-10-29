@@ -7,8 +7,8 @@ const API_URL = "http://localhost:5005";
 
 export const CreateRecipePage = () => {
   const [name, setName] = useState("");
-  const [image, setImage] = useState("");
   const [duration, setDuration] = useState(15);
+  const [imagePreview, setImagePreview] = useState(null);
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
   const [errorMessage, setErrorMessage] = useState();
@@ -18,18 +18,17 @@ export const CreateRecipePage = () => {
 
   async function handleCreateRecipe(e) {
     e.preventDefault();
-    const newRecipe = {
-      name,
-      image,
-      duration,
-      ingredients: getIngredients(ingredients),
-      instructions: getInstructions(instructions),
-    };
-
-    console.log(newRecipe);
 
     try {
-      const { data } = await axios.post(`${API_URL}/api/recipes`, newRecipe, {
+      const image = e.target.image.files[0];
+      const formData = new FormData();
+      formData.append("imageUrl", image);
+      formData.append("name", name);
+      formData.append("duration", duration);
+      formData.append("ingredients", ingredients);
+      formData.append("instructions", instructions);
+
+      const { data } = await axios.post(`${API_URL}/api/recipes`, formData, {
         headers: { Authorization: `Bearer ${storedToken}` },
       });
       nav(`/recipes/${data._id}`);
@@ -70,19 +69,23 @@ export const CreateRecipePage = () => {
           </div>
 
           {/* Image URL */}
-          <div className="mb-3">
+          <div className="d-flex align-items-center gap-3 mb-3">
+            {/* Image preview */}
+            <img
+              src={imagePreview}
+              alt={name}
+              className="img-preview rounded shadow-sm"
+            />
             <label className="form-label fw-semibold" htmlFor="image">
               Image URL
             </label>
             <input
               id="image"
               name="image"
-              type="url"
-              className="form-control"
-              placeholder="https://example.com/image.jpg"
-              value={image}
+              type="file"
+              className="form-control form-control-sm"
               onChange={(e) => {
-                setImage(e.target.value);
+                setImagePreview(URL.createObjectURL(e.target.files[0]));
               }}
             />
           </div>
@@ -115,7 +118,7 @@ export const CreateRecipePage = () => {
               name="ingredients"
               rows="4"
               className="form-control"
-              placeholder={`Use notation:\n--> ingredient | quantity | unit\n--> new ingredient -- new line`}
+              placeholder={`Use notation:\n--> ingredient | quantityUnit\n--> new ingredient — new line`}
               value={ingredients}
               onChange={(e) => {
                 setIngredients(e.target.value);
@@ -134,7 +137,7 @@ export const CreateRecipePage = () => {
               name="instructions"
               rows="6"
               className="form-control"
-              placeholder={`New instruction -- new line.`}
+              placeholder={`New instruction --> new line.`}
               value={instructions}
               onChange={(e) => {
                 setInstructions(e.target.value);
