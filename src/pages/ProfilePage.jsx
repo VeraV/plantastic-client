@@ -3,7 +3,6 @@ import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Ingredient } from "../components/Ingredient";
-//import { ingredientObject } from "../helpers/listItems";
 
 export const ProfilePage = () => {
   const API_URL = "http://localhost:5005";
@@ -25,26 +24,20 @@ export const ProfilePage = () => {
 
   /********** Export **************/
   async function shareShoppingList() {
-    const shoppingItems = ["Milk", "Eggs", "Bananas"];
-    const text = shoppingItems.join("\n"); // each item on its own line
+    const text = totalShoppingList.join("\n").replaceAll("|", " "); // each item on its own line
 
     if (navigator.share) {
       try {
-        console.log("Share sheet opened");
         await navigator.share({
           text,
+          title: "Grocery",
         });
-        console.log("After!");
       } catch (err) {
-        console.error("Share failed:", err);
-        // fallback -> download file
         downloadTextFile("shopping-list.txt", text);
       }
     } else {
-      // Fallback: download .txt (user can open it on phone or copy)
       downloadTextFile("shopping-list.txt", text);
     }
-    /**********Export End**************/
   }
 
   function downloadTextFile(filename, text) {
@@ -58,6 +51,8 @@ export const ProfilePage = () => {
     a.remove();
     URL.revokeObjectURL(url);
   }
+
+  /**********Export End**************/
 
   useEffect(() => {
     async function loadAllUserProfileData() {
@@ -143,7 +138,7 @@ export const ProfilePage = () => {
           {/* Left column – Meal Plans */}
           <div className="col-12 col-lg-8">
             <h2 className="fw-bold text-primary mb-4">My Meal Plans</h2>
-
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
             <div className="row g-3">
               {plans.map((onePlan) => (
                 <div key={onePlan._id} className="col-12 col-md-6">

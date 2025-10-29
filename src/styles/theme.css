@@ -304,3 +304,43 @@ h3 {
   transform: scale(1.02);
   transition: all 0.2s ease;
 }
+
+/*Home Page*/
+
+.hero-img {
+  max-width: 80%;
+  border-radius: 1.5rem; /* nicely rounded corners */
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 25px rgba(43, 168, 74, 0.25);
+}
+
+.how-step {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.how-step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(43, 168, 74, 0.15);
+}
+
+.step-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-success {
+  background-color: #2ba84a !important; /* your Plantastic green */
+}
+
+.bg-warning {
+  background-color: #f57c00 !important; /* Plantastic orange accent */
+}
