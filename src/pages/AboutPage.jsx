@@ -51,7 +51,7 @@ const AboutPage = () => {
 
               <div className="d-flex gap-3 justify-content-center">
                 <a
-                  href="https://www.linkedin.com/in/vera-fileyeva-5757b257/"
+                  href="https://www.linkedin.com/in/vera-veramei-5757b257/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-outline-success"
