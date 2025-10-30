@@ -6,9 +6,9 @@ import { addToTotalShoppingList } from "../helpers/listItems";
 import { Ingredient } from "../components/Ingredient";
 import { AuthContext } from "../context/AuthContext";
 import CarrotSpinner from "../components/CarrotSpinner";
+import { API_URL } from "../config/api.config";
 
 export const PlanPage = (props) => {
-  const API_URL = "http://localhost:5005";
   const storedToken = localStorage.getItem("authToken");
   const { planId } = useParams();
   const [errorMessage, setErrorMessage] = useState(null);

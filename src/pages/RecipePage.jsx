@@ -5,7 +5,7 @@ import { CookingInstructions } from "../components/CookingInstructions";
 import { Ingredient } from "../components/Ingredient";
 import { AuthContext } from "../context/AuthContext";
 import CarrotSpinner from "../components/CarrotSpinner";
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../config/api.config";
 
 export const RecipePage = () => {
   const { recipeId } = useParams();

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CarrotLogo from "../assets/logo.png";
+import { API_URL } from "../config/api.config";
 
 export const SignupPage = () => {
   const [name, setName] = useState("");
@@ -10,7 +11,6 @@ export const SignupPage = () => {
   const [secondPassword, setSecondPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
 
-  const API_URL = "http://localhost:5005";
   const navigate = useNavigate();
 
   async function handleSignup(e) {

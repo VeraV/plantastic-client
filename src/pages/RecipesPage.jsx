@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import CarrotSpinner from "../components/CarrotSpinner";
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../config/api.config";
 
 export const RecipesPage = () => {
   const [recipes, setRecipes] = useState();

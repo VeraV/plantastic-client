@@ -4,9 +4,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Ingredient } from "../components/Ingredient";
 import CarrotSpinner from "../components/CarrotSpinner";
+import { API_URL } from "../config/api.config";
 
 export const ProfilePage = () => {
-  const API_URL = "http://localhost:5005";
   const storedToken = localStorage.getItem("authToken");
   const {
     currentUser,

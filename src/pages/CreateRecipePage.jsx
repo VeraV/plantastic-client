@@ -2,8 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getIngredients, getInstructions } from "../helpers/stringFormats";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../config/api.config";
 
 export const CreateRecipePage = () => {
   const [name, setName] = useState("");

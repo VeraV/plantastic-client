@@ -9,8 +9,7 @@ import {
 import EmblaCarousel from "../components/EmblaCarousel";
 import { Ingredient } from "../components/Ingredient";
 import { AuthContext } from "../context/AuthContext";
-
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../config/api.config";
 
 export const CreatePlanPage = () => {
   const OPTIONS = { loop: true };

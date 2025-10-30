@@ -9,7 +9,7 @@ import {
 } from "../helpers/stringFormats";
 import { ConfirmModal } from "../components/ConfirmModal";
 import CarrotSpinner from "../components/CarrotSpinner";
-const API_URL = "http://localhost:5005";
+import { API_URL } from "../config/api.config";
 
 export const EditRecipePage = () => {
   const { recipeId } = useParams();

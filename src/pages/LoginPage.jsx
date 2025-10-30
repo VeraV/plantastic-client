@@ -3,13 +3,13 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import CarrotLogo from "../assets/logo.png";
+import { API_URL } from "../config/api.config";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
 
-  const API_URL = "http://localhost:5005";
   const navigate = useNavigate();
 
   const { storeToken, authenticateUser } = useContext(AuthContext);
