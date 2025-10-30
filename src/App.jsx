@@ -16,6 +16,7 @@ import IsPrivate from "./components/IsPrivate";
 import { PlanPage } from "./pages/PlanPage";
 import { CreatePlanPage } from "./pages/CreatePlanPage";
 import { PlantasticOutlet } from "./components/PlantasticOutlet";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   return (
@@ -96,6 +97,14 @@ function App() {
                 <CreatePlanPage />
               </PlantasticOutlet>
             </RouteProtector>
+          }
+        ></Route>
+        <Route
+          path="/about"
+          element={
+            <PlantasticOutlet>
+              <AboutPage />
+            </PlantasticOutlet>
           }
         ></Route>
       </Routes>

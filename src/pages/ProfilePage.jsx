@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Ingredient } from "../components/Ingredient";
+import CarrotSpinner from "../components/CarrotSpinner";
 
 export const ProfilePage = () => {
   const API_URL = "http://localhost:5005";
@@ -128,7 +129,7 @@ export const ProfilePage = () => {
   }
 
   if (!plans) {
-    return <span className="loader"></span>;
+    return <CarrotSpinner />;
   }
 
   return (

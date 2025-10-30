@@ -7,6 +7,8 @@ import {
   showInstructions,
   getInstructions,
 } from "../helpers/stringFormats";
+import { ConfirmModal } from "../components/ConfirmModal";
+import CarrotSpinner from "../components/CarrotSpinner";
 const API_URL = "http://localhost:5005";
 
 export const EditRecipePage = () => {
@@ -20,6 +22,8 @@ export const EditRecipePage = () => {
   const [duration, setDuration] = useState(15);
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
+
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     async function getTheRecipe() {
@@ -72,9 +76,23 @@ export const EditRecipePage = () => {
     }
   }
 
+  const handleShowConfirm = () => {
+    setShowConfirm(true);
+  };
+
+  const handleConfirmDelete = () => {
+    handleDeleteRecipe();
+    setShowConfirm(false);
+  };
+
+  const handleCancel = () => {
+    setShowConfirm(false);
+  };
+
   if (!name) {
-    return <span className="loader"></span>;
+    return <CarrotSpinner />;
   }
+
   return (
     <div className="container py-5">
       <div
@@ -196,13 +214,21 @@ export const EditRecipePage = () => {
             <button
               type="button"
               className="btn btn-outline-danger"
-              onClick={handleDeleteRecipe}
+              onClick={handleShowConfirm}
             >
               Delete
             </button>
           </div>
         </form>
       </div>
+      {/* Confirmation Modal */}
+      <ConfirmModal
+        show={showConfirm}
+        title="Delete Recipe"
+        message="Are you sure you want to delete this recipe? This action cannot be undone."
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancel}
+      />
     </div>
   );
 };

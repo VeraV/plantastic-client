@@ -51,7 +51,8 @@ const AuthContentWrapper = ({ children }) => {
 
   function handleLogout() {
     localStorage.removeItem("authToken");
-    nav("/login");
+    console.log("in logout");
+    nav("/");
 
     setCurrentUser(null);
     setIsLoading(false);

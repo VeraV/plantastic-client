@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import CarrotSpinner from "../components/CarrotSpinner";
 const API_URL = "http://localhost:5005";
 
 export const RecipesPage = () => {
@@ -20,6 +21,8 @@ export const RecipesPage = () => {
     }
     loadAllRecipes();
   }, []);
+
+  if (!recipes) return <CarrotSpinner />;
 
   return (
     <div>

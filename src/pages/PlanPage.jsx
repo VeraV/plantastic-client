@@ -5,6 +5,7 @@ import { showIngredients, showInstructions } from "../helpers/stringFormats";
 import { addToTotalShoppingList } from "../helpers/listItems";
 import { Ingredient } from "../components/Ingredient";
 import { AuthContext } from "../context/AuthContext";
+import CarrotSpinner from "../components/CarrotSpinner";
 
 export const PlanPage = (props) => {
   const API_URL = "http://localhost:5005";
@@ -88,7 +89,7 @@ export const PlanPage = (props) => {
   }
 
   if (!plan) {
-    return <span className="loader"></span>;
+    return <CarrotSpinner />;
   }
 
   return (

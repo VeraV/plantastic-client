@@ -71,67 +71,39 @@ h3 {
 }
 
 /* --- Embla Carousel --- */
-/* .embla {
-  position: relative;
-  overflow: hidden;
-}
-
-.embla__viewport {
-  overflow: hidden;
-  width: 100%;
-}
-
-.embla__container {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.embla__slide {
-  flex: 0 0 280px; /* Adjust for number of slides visible 
-  min-width: 0;
-}
-
-.embla__buttons button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* Recipe card inside carousel */
-/*.recipe-card {
-  border-radius: 16px;
+.embla__button {
   background-color: #ffffff;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.recipe-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
-}
-
-.recipe-card img {
-  border-radius: 12px;
-  object-fit: cover;
-}
-
-.recipe-card h5 {
-  font-family: "Poppins", sans-serif;
-}*/
-
-/* Carousel control area */
-/*.embla__controls {
-  margin-top: 1rem;
-}
-
-.embla__buttons button {
-  border-width: 2px;
+  border: 1px solid #d1d5db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2ba84a; /* your Plantastic green */
   transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.embla__buttons button:hover {
-  background-color: var(--bs-success);
-  color: white;
-  border-color: var(--bs-success);
-} */
+.embla__button:hover {
+  background-color: #2ba84a;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.embla__button__svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Positioning controls */
+.embla__controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 1rem;
+}
 
 /* --- Picked Recipes (mini cards) --- */
 .recipe-mini-card {
@@ -343,4 +315,29 @@ h3 {
 
 .bg-warning {
   background-color: #f57c00 !important; /* Plantastic orange accent */
+}
+
+/* About Page*/
+section.bg-light {
+  background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
+}
+
+.list-inline-item {
+  font-weight: 500;
+}
+
+/* NabBar */
+
+/* Custom orange button */
+.btn-orange {
+  background-color: #f57c00;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-orange:hover {
+  background-color: #e86f00;
+  color: #fff;
 }

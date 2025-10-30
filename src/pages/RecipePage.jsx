@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { CookingInstructions } from "../components/CookingInstructions";
 import { Ingredient } from "../components/Ingredient";
 import { AuthContext } from "../context/AuthContext";
+import CarrotSpinner from "../components/CarrotSpinner";
 const API_URL = "http://localhost:5005";
 
 export const RecipePage = () => {
@@ -26,7 +27,7 @@ export const RecipePage = () => {
   }, [recipeId]);
 
   if (!theRecipe) {
-    return <span className="loader"></span>;
+    return <CarrotSpinner />;
   }
 
   return (
