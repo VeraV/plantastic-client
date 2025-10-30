@@ -24,8 +24,8 @@ export const CreateRecipePage = () => {
       formData.append("imageUrl", image);
       formData.append("name", name);
       formData.append("duration", duration);
-      formData.append("ingredients", ingredients);
-      formData.append("instructions", instructions);
+      formData.append("ingredients", getIngredients(ingredients));
+      formData.append("instructions", getInstructions(instructions));
 
       const { data } = await axios.post(`${API_URL}/api/recipes`, formData, {
         headers: { Authorization: `Bearer ${storedToken}` },
