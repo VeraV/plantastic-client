@@ -6,7 +6,6 @@ import { HomePage } from "./pages/HomePage";
 import { SignupPage } from "./pages/SignupPage";
 import { LoginPage } from "./pages/LoginPage";
 import { ProfilePage } from "./pages/ProfilePage";
-import { Navbar } from "./components/Navbar";
 import { RouteProtector } from "./components/RouteProtector";
 import { RecipesPage } from "./pages/RecipesPage";
 import { RecipePage } from "./pages/RecipePage";
@@ -30,9 +29,9 @@ function App() {
               <HomePage />
             </PlantasticOutlet>
           }
-        ></Route>
-        <Route path="/signup" element={<SignupPage />}></Route>
-        <Route path="/login" element={<LoginPage />}></Route>
+        />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route
           path="/recipes"
           element={
@@ -40,7 +39,7 @@ function App() {
               <RecipesPage />
             </PlantasticOutlet>
           }
-        ></Route>
+        />
         <Route
           path="/recipes/:recipeId"
           element={
@@ -48,7 +47,7 @@ function App() {
               <RecipePage />
             </PlantasticOutlet>
           }
-        ></Route>
+        />
         <Route
           path="/recipes/:recipeId/edit"
           element={
@@ -58,7 +57,7 @@ function App() {
               </PlantasticOutlet>
             </IsPrivate>
           }
-        ></Route>
+        />
         <Route
           path="/recipes/new"
           element={
@@ -68,7 +67,7 @@ function App() {
               </PlantasticOutlet>
             </IsPrivate>
           }
-        ></Route>
+        />
         <Route
           path="/profile"
           element={
@@ -78,7 +77,7 @@ function App() {
               </PlantasticOutlet>
             </RouteProtector>
           }
-        ></Route>
+        />
         <Route
           path="/plan/:planId"
           element={
@@ -88,7 +87,7 @@ function App() {
               </PlantasticOutlet>
             </RouteProtector>
           }
-        ></Route>
+        />
         <Route
           path="/plan/new"
           element={
@@ -98,7 +97,7 @@ function App() {
               </PlantasticOutlet>
             </RouteProtector>
           }
-        ></Route>
+        />
         <Route
           path="/about"
           element={
@@ -106,7 +105,7 @@ function App() {
               <AboutPage />
             </PlantasticOutlet>
           }
-        ></Route>
+        />
       </Routes>
     </>
   );
