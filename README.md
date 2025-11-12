@@ -220,4 +220,4 @@ The main goal is to provide a **light, intuitive, and visually appealing** user 
 
 ### Vera Fileyeva
 
-[GitHub](https://github.com/VeraV) | [LinkedIn](https://www.linkedin.com/in/vera-veramei-5757b257/)
+[GitHub](https://github.com/VeraV) | [LinkedIn](https://www.linkedin.com/in/veramei-webdeveloper/)
